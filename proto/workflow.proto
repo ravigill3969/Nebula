@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package nebula;
+option go_package = "github.com/<yourusername>/nebula-v2025.10.07/proto;nebula";
+
+service WorkflowService {
+  rpc SubmitWorkflow (WorkflowDefinition) returns (WorkflowResponse);
+}
+
+message WorkflowDefinition {
+  string name = 1;
+  bytes yaml_file = 2; 
+}
+
+message WorkflowResponse {
+  string workflow_id = 1;
+  string status = 2; 
+}
