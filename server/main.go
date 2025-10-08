@@ -4,7 +4,7 @@ import (
 	"log"
 	"net"
 
-	"nebula/internal/orchestrator"
+	"nebula/orchestrator"
 	pb "nebula/proto"
 
 	"github.com/joho/godotenv"
@@ -20,18 +20,16 @@ func main() {
 
 	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {
-		log.Fatalf("❌ Failed to listen on port 50051: %v", err)
+		log.Fatalf("Failed to listen on port 50051: %v", err)
 	}
 
 	grpcServer := grpc.NewServer()
 
-	// Register your workflow service implementation
 	pb.RegisterWorkflowServiceServer(grpcServer, &orchestrator.WorkflowServer{})
 
 	log.Println("🚀 Nebula Orchestrator gRPC server running on port 50051")
 
-	// Start serving incoming requests
 	if err := grpcServer.Serve(lis); err != nil {
-		log.Fatalf("❌ Failed to serve gRPC: %v", err)
+		log.Fatalf("Failed to serve gRPC: %v", err)
 	}
 }

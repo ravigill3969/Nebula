@@ -26,6 +26,12 @@ type Step struct {
 	DependsOn string `yaml:"depends_on,omitempty"`
 }
 
+var workerRegistry = map[string]string{
+	"user-service":    "localhost:6001",
+	"billing-service": "localhost:6002",
+	"email-service":   "localhost:6003",
+}
+
 func (s *WorkflowServer) SubmitWorkflow(ctx context.Context, req *pb.WorkflowDefinition) (*pb.WorkflowResponse, error) {
 	fmt.Printf("📩 Received workflow: %s\n", req.Name)
 
@@ -35,10 +41,6 @@ func (s *WorkflowServer) SubmitWorkflow(ctx context.Context, req *pb.WorkflowDef
 	}
 
 	id := uuid.New().String()
-	fmt.Printf("🚀 Starting workflow [%s]: %s\n", id, wf.Name)
-	for _, step := range wf.Steps {
-		fmt.Printf("→ Step: %s (%s.%s)\n", step.Name, step.Service, step.Action)
-	}
 
 	fmt.Printf("✅ Workflow [%s] completed.\n", id)
 	return &pb.WorkflowResponse{
@@ -46,3 +48,14 @@ func (s *WorkflowServer) SubmitWorkflow(ctx context.Context, req *pb.WorkflowDef
 		Status:     "completed",
 	}, nil
 }
+
+func ExecuteWorkflow(wf Workflow) {
+	fmt.Printf("🚀 Starting workflow: %s\n", wf.Name)
+	completed := make(map[string]bool)
+
+	for len(completed) < len(wf.Steps){
+
+	}
+}
+
+

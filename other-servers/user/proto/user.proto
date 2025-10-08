@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package nebula;
+option go_package = "nebula/proto;nebula";
+
+service WorkerExecutor {
+  rpc ExecuteStep (StepRequest) returns (StepResponse);
+}
+
+message StepRequest {
+  string workflow_id = 1;
+  string step_name   = 2;
+  string service     = 3;
+  string action      = 4;
+  string payload     = 5;
+}
+
+message StepResponse {
+  string step_name = 1;
+  string status    = 2; 
+  string message   = 3;
+}
